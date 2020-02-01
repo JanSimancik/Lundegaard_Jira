@@ -17,6 +17,17 @@ def get_users(group):
     return users
 
 
-pprint.pprint(get_users("Jira Users"))
+# pprint.pprint(get_users("Jira Users"))
 
-# test
+def get_groups(filter="", show=False):
+    data = jira.groups(filter)
+
+    if show:
+        for group in range(len(data)):
+            print(data[group])
+
+    return data
+
+
+get_groups(show=True)
+# print(jira.client_info())
