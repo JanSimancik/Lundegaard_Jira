@@ -7,6 +7,16 @@ from collections import OrderedDict
 jira = JIRA("https://jira.lnd.bz", basic_auth=("jan.simancik", "Medajlon123"))
 
 
+searched_user = input("Enter to pattern for user to search(defaul[all]): ") or "."
+inactive_users = input("Show inactive users?[y/N]: ") or "No"
+
+
+if inactive_users.lower()[0] == "y":
+    inactive_users = True
+else:
+    inactive_users = False
+
+
 def get_users(group):
     data = jira.group_members(group)
     converted_users = dict(OrderedDict(data))
@@ -30,10 +40,15 @@ def get_groups(filter="", show=False):
     return data
 
 
-# get_groups(show=True)
-def get_all_users():
-    data = jira.search_users(".")
+def get_all_users(show=False):
+    result = list(jira.search_users(searched_user, maxResults=1000, includeInactive=inactive_users))
+    print(f"Number of results: {len(result)}\n")
+
+    if show:
+        for i in range(len(result)):
+            print(result[i])
+
+        return result
 
 
-print(type(jira.search_users(".")))
-# print(jira.client_info())
+get_all_users(True)
