@@ -6,6 +6,7 @@ from collections import OrderedDict
 # Main object = server
 jira = JIRA("https://jira.lnd.bz", basic_auth=("jan.simancik", "Medajlon123"))
 
+
 def get_users(group):
     data = jira.group_members(group)
     converted_users = dict(OrderedDict(data))
@@ -29,5 +30,10 @@ def get_groups(filter="", show=False):
     return data
 
 
-get_groups(show=True)
+# get_groups(show=True)
+def get_all_users():
+    data = jira.search_users(".")
+
+
+print(type(jira.search_users(".")))
 # print(jira.client_info())
